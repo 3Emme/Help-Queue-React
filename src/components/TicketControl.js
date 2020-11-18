@@ -14,19 +14,21 @@ class TicketControl extends React.Component {
       stepsVisibleOnPage: false,
       helpVisibleOnPage: false,
       minutesVisibleOnPage: false,
-      formVisibleOnPage: false
+      formVisibleOnPage: false,
+      masterTicketList: []
     };
     this.handleForwardClick = this.handleForwardClick.bind(this);
     this.handleBackClick = this.handleBackClick.bind(this); //new code here
     
   }
+handleAddingNewTicketToList = (newTicket) => {
+  const newMasterTicketList = this.state.masterTicketList.concat(newTicket);
+  this.setState({masterTicketList: newMasterTicketList,
+                formVisibleOnPage:false});
+}
 
   handleBackClick() {
-    console.log("before click ticket list "+this.state.ticketListVisibleOnPage);
-    console.log("before click steps "+this.state.stepsVisibleOnPage);
-    console.log("before click help "+this.state.helpVisibleOnPage);
-    console.log("before click minutes "+this.state.minutesVisibleOnPage);
-    console.log("before click form "+this.state.formVisibleOnPage);
+    
     this.setState(prevState => ({
       formVisibleOnPage: !prevState.formVisibleOnPage,
       stepsVisibleOnPage: !prevState.stepsVisibleOnPage
@@ -35,11 +37,7 @@ class TicketControl extends React.Component {
   }
 
   handleForwardClick = () => {
-    console.log("before click ticket list "+this.state.ticketListVisibleOnPage);
-    console.log("before click steps "+this.state.stepsVisibleOnPage);
-    console.log("before click help "+this.state.helpVisibleOnPage);
-    console.log("before click minutes "+this.state.minutesVisibleOnPage);
-    console.log("before click form "+this.state.formVisibleOnPage);
+    
     if(this.state.ticketListVisibleOnPage){
       this.setState({ticketListVisibleOnPage: false, stepsVisibleOnPage: true})
       return;
@@ -90,12 +88,12 @@ class TicketControl extends React.Component {
       buttonForwardText = "Go to Form"; // new code
     }
     else if (this.state.formVisibleOnPage) {
-      currentVisibleState = <NewTicketForm />;
+      currentVisibleState = <NewTicketForm onNewTicketCreation={this.handleAddingNewTicketToList}/>;
       buttonBackText = "Return to Minutes"; // new code
       buttonForwardText = "Return to Ticket List"; // new code
     } 
     else {
-      currentVisibleState = <TicketList />;
+      currentVisibleState = <TicketList ticketList={this.state.masterTicketList}/>;
       buttonBackText = "Add Ticket"; // new code
       buttonForwardText = "Go to Steps"; // new code
       addTicketButton = <button onClick={this.handleForwardClick}>Add ticket</button> // new code
