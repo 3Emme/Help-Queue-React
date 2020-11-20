@@ -7,10 +7,13 @@ function Ticket(props){
   }
     return (
       <React.Fragment>
+      
       <div style = {whackStyles}>
-        <h3>{props.location} - {props.names}</h3>
-        <p><em>{props.issue}</em></p>
-        <hr/>
+        <div onClick = {() => props.whenTicketClicked(props.id)}>
+          <h3>{props.location} - {props.names}</h3>
+          <p><em>{props.issue}</em></p>
+          <hr/>
+        </div>
       </div>
     </React.Fragment>
   );
@@ -19,7 +22,9 @@ function Ticket(props){
 Ticket.propTypes = {
     names: PropTypes.string.isRequired,
     location: PropTypes.string.isRequired,
-    issue: PropTypes.string
+    issue: PropTypes.string,
+    id: PropTypes.string,
+    whenTicketClicked: PropTypes.func
 };
 
 
